@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_meals/dummy_categories.dart';
-import 'package:my_meals/models/meal.dart';
 
 class MealDetailScreen extends StatelessWidget {
-  final String id;
-  final Color color;
+  final Function toogleProp, isFavorite;
 
-  MealDetailScreen(this.id, this.color);
+  MealDetailScreen(this.toogleProp, this.isFavorite);
+
+  static const routeName = 'MealDetailScreen';
 
   Widget buildSectionTitle(String title, BuildContext context) {
     return Text(
@@ -17,6 +17,9 @@ class MealDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final routeArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, String>;
+    final id = routeArgs['id'];
     final mealDetail = DUMMY_MEALS.firstWhere((element) => element.id == id);
     return SafeArea(
       child: Scaffold(
@@ -25,7 +28,6 @@ class MealDetailScreen extends StatelessWidget {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
-                backgroundColor: color,
                 expandedHeight: 300.0,
                 floating: false,
                 pinned: true,
@@ -59,7 +61,7 @@ class MealDetailScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Card(
                         shape: RoundedRectangleBorder(
-                          side: BorderSide(color: color, width: 1),
+                          side: BorderSide(color: Colors.pink, width: 1),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         margin:
@@ -85,7 +87,7 @@ class MealDetailScreen extends StatelessWidget {
                   elevation: 4,
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(color: color, width: 1),
+                    side: BorderSide(color: Colors.pink, width: 1),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: ListView.builder(
@@ -96,7 +98,7 @@ class MealDetailScreen extends StatelessWidget {
                         children: <Widget>[
                           ListTile(
                             leading: CircleAvatar(
-                              backgroundColor: color,
+                              backgroundColor: Colors.pink,
                               radius: 20,
                               child: Text(
                                 '# ${(index + 1)}',
@@ -117,12 +119,12 @@ class MealDetailScreen extends StatelessWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.of(context).pop(id);
-          },
-          backgroundColor: color,
-          child: Icon(Icons.delete,
-          color: Colors.white,),
+          onPressed: () => toogleProp(id),
+          backgroundColor: Colors.white,
+          child: Icon(
+            Icons.favorite,
+            color: isFavorite(id) ? Colors.red : Colors.grey,
+          ),
         ),
       ),
     );

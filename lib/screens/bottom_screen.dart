@@ -3,20 +3,19 @@ import 'package:flashy_tab_bar/flashy_tab_bar.dart';
 import 'package:my_meals/screens/categories_screen.dart';
 import 'package:my_meals/screens/favorite_screen.dart';
 import 'package:my_meals/widgets/drawer_screen.dart';
+import 'package:my_meals/models/meal.dart';
 
 class BottomScreen extends StatefulWidget {
+
+  List<Meal> favoriteList;
+  BottomScreen(this.favoriteList);
+
   @override
   _BottomScreenState createState() => _BottomScreenState();
 }
 
 class _BottomScreenState extends State<BottomScreen> {
-
-  List<Map<String,Object>> pagesList = [
-    {'page':CategoriesScreen(),'title':'Categories'},
-    {'page':FavoriteScreen(),'title':'Your Favorite'},
-    {'page':CategoriesScreen(),'title':'Categories'},
-    {'page':FavoriteScreen(),'title':'Your Favorite'}
-  ];
+  List<Map<String,Object>> pagesList;
 
   int _selectedIndex = 0;
 
@@ -24,6 +23,17 @@ class _BottomScreenState extends State<BottomScreen> {
     setState(() {
       _selectedIndex =page;
     });
+  }
+
+  @override
+  void initState() {
+    pagesList = [
+      {'page':CategoriesScreen(),'title':'Categories'},
+      {'page':FavoriteScreen(widget.favoriteList),'title':'Your Favorite'},
+      {'page':CategoriesScreen(),'title':'Categories'},
+      {'page':FavoriteScreen(widget.favoriteList),'title':'Your Favorite'}
+    ];
+    super.initState();
   }
 
   @override

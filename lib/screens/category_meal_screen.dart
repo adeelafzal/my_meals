@@ -4,14 +4,10 @@ import 'package:my_meals/models/meal.dart';
 import 'package:my_meals/widgets/meal_item.dart';
 
 class CategoryMealScreen extends StatefulWidget {
-  final String title, id;
-  final Color color;
-  String categoryTitle;
+  List<Meal> availAbleMeals;
+  CategoryMealScreen(this.availAbleMeals);
 
-
-  CategoryMealScreen(this.id, this.title, this.color);
-
-
+static const routeName = 'CategoryMealScreen';
 
   @override
   _CategoryMealScreenState createState() => _CategoryMealScreenState();
@@ -21,7 +17,8 @@ class _CategoryMealScreenState extends State<CategoryMealScreen> {
 
   List<Meal> displayMeal;
   bool loadInitData = false;
-
+  String categoryTitle;
+  Color color;
   void onRemove(String mealId){
     setState(() {
       displayMeal.removeWhere((element) => element.id == mealId);
@@ -29,35 +26,35 @@ class _CategoryMealScreenState extends State<CategoryMealScreen> {
   }
 
   @override
-  void initState() {
-
-  }
-
-  @override
   void didChangeDependencies() {
     if(!loadInitData){
-      displayMeal = DUMMY_MEALS.where((element) {
-        return element.categories.contains(widget.id);
+      final routeArgs = ModalRoute.of(context).settings.arguments as Map<String,String>;
+      final id = routeArgs['id'];
+      categoryTitle  =routeArgs['title'];
+//      final routeColorArgs = ModalRoute.of(context).settings.arguments as Color;
+//      color =routeColorArgs;
+      displayMeal = widget.availAbleMeals.where((element) {
+        return element.categories.contains(id);
       }).toList();
       loadInitData= true;
     }
-
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: widget.color,
-        title: Text(widget.title),
+        backgroundColor: Colors.pink,
+        title: Text(categoryTitle),
       ),
       body: Center(
         child: ListView.builder(
           itemBuilder: (context, index) {
             return MealItem(displayMeal[index].id,displayMeal[index].title, displayMeal[index].imageUrl, displayMeal[index].duration, displayMeal[index].complexity,
-                displayMeal[index].affordability,widget.color,onRemove);
+                displayMeal[index].affordability,Colors.pink);
           },
           itemCount: displayMeal.length,
         ),

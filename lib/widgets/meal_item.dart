@@ -4,15 +4,14 @@ import 'package:my_meals/models/meal.dart';
 import 'package:my_meals/screens/meal_detail_screen.dart';
 
 class MealItem extends StatelessWidget {
-  final String id,title, imageUrl;
+  final String id, title, imageUrl;
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
   final Color color;
-  final Function onRemove;
 
-  MealItem(this.id,this.title, this.imageUrl, this.duration, this.complexity,
-      this.affordability,this.color,this.onRemove);
+  MealItem(this.id, this.title, this.imageUrl, this.duration, this.complexity,
+      this.affordability, this.color);
 
   String get complexityText {
     switch (complexity) {
@@ -47,11 +46,12 @@ class MealItem extends StatelessWidget {
   }
 
   void selectMeal(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return MealDetailScreen(id,color);
-    })).then((value) {
-      if(value!=null){
-        onRemove(value);
+    Navigator.pushNamed(context, MealDetailScreen.routeName, arguments: {
+      'id':id
+    })
+        .then((value) {
+      if (value != null) {
+        //onRemove(value);
       }
     });
   }
@@ -59,7 +59,7 @@ class MealItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         selectMeal(context);
       },
       child: Card(
@@ -103,7 +103,8 @@ class MealItem extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       color: Colors.black54,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6,vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 4),
                         child: Text(
                           title,
                           textAlign: TextAlign.center,

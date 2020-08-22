@@ -8,7 +8,10 @@ class TabsScreen extends StatefulWidget {
   _TabsScreenState createState() => _TabsScreenState();
 }
 
+
 class _TabsScreenState extends State<TabsScreen> {
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -29,7 +32,7 @@ class _TabsScreenState extends State<TabsScreen> {
           ),
           drawer: DraweScreen(),
           body: TabBarView(children: <Widget>[
-            CategoriesScreen(), FavoriteScreen()
+//            CategoriesScreen(), FavoriteScreen()
           ],
 
           ),),

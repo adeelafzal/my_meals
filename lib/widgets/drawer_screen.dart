@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:my_meals/screens/bottom_screen.dart';
 import 'package:my_meals/screens/settings_screen.dart';
 
-class DraweScreen extends StatelessWidget {
+class DraweScreen extends StatefulWidget {
+  @override
+  _DraweScreenState createState() => _DraweScreenState();
+}
+
+class _DraweScreenState extends State<DraweScreen> {
+
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -17,8 +24,8 @@ class DraweScreen extends StatelessWidget {
               Center(
                 child: Container(
                   height: 100,
-                  child: Image.network(
-                      'https://lh3.googleusercontent.com/proxy/1XOmvoCUbuGxPf04eVEphP1QdS8PV2yKpXXcEw73_5eIrUz4p5t7Wgog_Pt47vk9n9YHNOOOhJ2mic3uqXzQyFzg9gSb4iOGW-rgn9KKlRdKScjF2g'),
+                  child: Image.asset(
+                      'images/meal.png'),
                 ),
               ),
               SizedBox(
@@ -34,19 +41,23 @@ class DraweScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              DrawerMenu(title: 'Meals',icon: Icons.fastfood, onClick: (){
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) {
-                  return BottomScreen();
-                }));
-              },),
+              DrawerMenu(
+                title: 'Meals',
+                icon: Icons.fastfood,
+                onClick: () {
+                  Navigator.of(context).pushReplacementNamed('/');
+                },
+              ),
               Divider(
                 color: Colors.white,
               ),
-              DrawerMenu(title: 'Settings',icon: Icons.settings, onClick: (){
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) {
-                  return SettingsScreen();
-                }));
-              },),
+              DrawerMenu(
+                title: 'Settings',
+                icon: Icons.settings,
+                onClick: () {
+                  Navigator.of(context).pushReplacementNamed(SettingsScreen.routeName);
+                },
+              ),
               Divider(
                 color: Colors.white,
               ),
@@ -59,24 +70,25 @@ class DraweScreen extends StatelessWidget {
 }
 
 class DrawerMenu extends StatelessWidget {
-
   final String title;
   final IconData icon;
   final Function onClick;
 
-  DrawerMenu({@required this.title,@required this.icon,@required this.onClick});
+  DrawerMenu(
+      {@required this.title, @required this.icon, @required this.onClick});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon,
+      leading: Icon(
+        icon,
         size: 26,
-        color: Colors.white,),
-      title: Text(title,
-        style: TextStyle(
-            color: Colors.white,
-            fontSize: 24
-        ),),
+        color: Colors.white,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(color: Colors.white, fontSize: 24),
+      ),
       onTap: onClick,
     );
   }
